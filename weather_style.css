@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+/* Resetting basics for this page only */
+* { box-sizing: border-box; }
+
+.weather-dashboard {
+    background-color: rgb(32, 32, 32) !important;
+    color: #fff !important;
+    padding: 40px;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Header & Buttons */
+.weather-dashboard header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.weather-dashboard button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.weather-dashboard button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Accessibility */
+body.colorblind {
+    filter: contrast(1.15) saturate(1.2);
+}
+
+.weather-dashboard main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+}
+
+/* The Weather Card Container */
+.weather-dashboard .city {
+    background: rgba(24, 24, 27, 0.8) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-width: 600px !important;
+    max-width: 900px !important;
+    height: auto !important; /* Overrides index page fixed height */
+    padding: 30px !important;
+    border-radius: 30px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    display: block !important; /* Overrides index page flex-end */
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.weather-dashboard h2 {
+    margin: 0 0 60px 0 !important;
+    font-size: 2.5rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -1px !important;
+    background: transparent !important; /* Clears index bar */
+    color: #fff !important;
+    position: static !important;
+}
+
+/* Current Weather List */
+.weather-dashboard .current-weather-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 0 0 25px 0;
+    font-size: 1.1rem;
+    padding: 0;
+    list-style: none;
+}
+
+.weather-dashboard .current-weather-list div {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.weather-dashboard dt {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: #d6e3f7;
+}
+
+.weather-dashboard dd {
+    margin: 0;
+}
+
+/* Table Layout */
+.weather-dashboard table {
+    width: 100%;
+    border-collapse: separate !important;
+    border-spacing: 0 8px !important;
+    margin-top: 40px;
+}
+
+.weather-dashboard th {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-align: left;
+    font-size: 0.8rem;
+    color: #d6e3f7;
+    padding: 6px;
+}
+
+.weather-dashboard td {
+    background: rgba(255, 255, 255, 0.03);
+    border-block: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 6px;
+    color: #d6e3f7;
+}
+
+.weather-dashboard .left-edge {
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px 0 0 12px;
+}
+
+.weather-dashboard .right-edge {
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 12px 12px 0;
+}
+
+/* Temperature and Rain Accents */
+.weather-dashboard .high { color: #fb923c !important; font-weight: 700; }
+.weather-dashboard .low { color: #7dd3fc !important; font-weight: 700; }
+.weather-dashboard .precip-cell { color: #38bdf8 !important; text-align: center; font-weight: 700; }
+
+.weather-dashboard .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+.weather-dashboard .date { font-weight: 600; }
