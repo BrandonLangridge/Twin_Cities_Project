@@ -1,0 +1,456 @@
+/* GLOBAL VARIABLES */
+
+:root {
+  --bg: #f4f4f4;
+  --accent: #0b5fff;
+  --headerBorder: rgba(0, 0, 0, 0.08);
+  --cardShadow: rgba(0, 0, 0, 0.25);
+  --text: #333;
+  --surface: #ffffff;
+  --border: rgba(17, 24, 39, 0.10);
+  --shadow: 0 10px 24px rgba(0, 0, 0, 0.10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  transition: background 0.3s, color 0.3s, filter 0.3s ease;
+}
+
+
+/* UNIVERSAL COLOR-BLIND FILTERS */
+
+/* By applying these to the HTML tag, it acts as a global "lens"
+over every element, including dark weather cards and maps. */
+
+html.protan {
+  filter: contrast(1.1) sepia(0.3) saturate(0.7) hue-rotate(-15deg) !important;
+}
+
+html.deutan {
+  filter: contrast(1.1) sepia(0.2) saturate(0.8) hue-rotate(20deg) !important;
+}
+
+html.tritan {
+  filter: contrast(1.1) hue-rotate(160deg) !important;
+}
+
+
+/* WEATHER WIDGET WRAPPER
+Ensures the background around the weather card stays white */
+
+.weather-section-container {
+  background-color: #ffffff !important;
+  padding: 100px 0;
+  width: 100%;
+}
+
+
+/* MAP LAYOUT */
+
+#map-wrapper {
+  height: 80vh;
+  width: 100%;
+  position: relative;
+  border-bottom: 4px solid var(--accent);
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+
+/* UNIFIED BUTTON & DROPDOWN STYLE */
+
+.toggle-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toggle-button {
+  height: 38px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.toggle-button:hover {
+  background: #0949cc;
+  transform: translateY(-2px);
+}
+
+select.toggle-button.color-select-dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 30px;
+  line-height: 38px;
+}
+
+.color-select-dropdown option {
+  background: white;
+  color: #333;
+  font-weight: normal;
+}
+
+
+/* INDEX PAGE LAYOUT */
+
+.index-body {
+  text-align: center;
+}
+
+.index-body header {
+  padding: 46px 16px 28px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+  border-bottom: 1px solid var(--headerBorder);
+}
+
+.index-body h1 {
+  margin: 0;
+  font-size: clamp(30px, 3.5vw, 42px);
+  font-weight: 800;
+}
+
+.index-body h1 .h1-accent {
+  color: var(--accent);
+}
+
+.index-body h1::after {
+  content: "";
+  display: block;
+  width: 92px;
+  height: 4px;
+  margin: 14px auto 0;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.city-container {
+  display: flex;
+  justify-content: center;
+  gap: 52px;
+  flex-wrap: wrap;
+  padding: 40px 16px;
+}
+
+.city {
+  position: relative;
+  width: 360px;
+  height: 240px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px var(--cardShadow);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.city img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.city-container .city h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.city-button {
+  margin: 12px auto 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  z-index: 1;
+  font-weight: bold;
+}
+
+
+/* MAP & DETAILS PAGE LAYOUT */
+
+.page-header, .header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  position: relative;
+}
+
+.page-header h1 {
+  font-size: 20px;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text);
+}
+
+/* DETAILS PAGE CONTAINER */
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+  .page-header h1 {
+    position: relative;
+    left: 0;
+    transform: none;
+    order: 2;
+    margin-top: 10px;
+  }
+  .page-header {
+    flex-direction: column;
+    height: auto;
+    padding: 15px;
+  }
+}
+
+.image img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.details h1 {
+  margin: 0 0 15px 0;
+  font-size: 28px;
+  color: var(--accent);
+}
+
+.details p {
+  line-height: 1.6;
+  font-size: 16px;
+  color: #444;
+}
+
+.source {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #777;
+}
+
+.source a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+/* MAP PAGE SPECIFIC OVERRIDES */
+
+#map-wrapper {
+  height: 80vh;
+  width: 100%;
+  border-bottom: 4px solid var(--accent);
+}
+
+.weather-section-container {
+  background-color: rgb(32, 32, 32);
+  padding: 100px 0;
+  width: 100%;
+}
+
+.weather-dashboard .city {
+  margin: 0 auto !important;
+  float: none !important;
+}
+
+.map-page .weather-dashboard header {
+  display: none;
+}
+
+
+/* REFINED COMMENTS SECTION */
+
+.comments-section {
+  padding: 60px 20px;
+  background: #f8fafc;
+}
+
+.comments-section .container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.comments-section h3 {
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+
+/* FORM STYLING */
+
+.comment-form {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+}
+
+.comment-form input[type="text"], .comment-form textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.comment-form input:focus, .comment-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(11, 95, 255, 0.1);
+}
+
+
+/* COMMENT CARDS */
+
+.comment-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  transition: transform 0.2s;
+}
+
+.comment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-card strong {
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.comment-card small {
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+.comment-card p {
+  margin: 0;
+  line-height: 1.6;
+  color: #475569;
+}
+
+
+/* THE "FEATURED SEARCH" BADGE */
+
+.badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 10px;
+  background: #eff6ff;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 6px;
+  letter-spacing: 0.025em;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 40px 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 5px;
+  transition: color 0.2s;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
+  /* Turns red on hover */
+}
