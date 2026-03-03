@@ -16,8 +16,10 @@ $config = [
 
     "api" => [
         "weather_base_url" => "https://api.open-meteo.com/v1/",
-        "weather_units"    => "metric"
+        "weather_units"    => "metric",
+        "pixabay_key"      => "54664421-9a17e2d26b529b08d054890af"
     ],
+
 
     "queries" => [
         "get_twin_cities" => "

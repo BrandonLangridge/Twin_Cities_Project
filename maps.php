@@ -6,6 +6,33 @@
 $config = require_once __DIR__ . '/config.php'; 
 require_once __DIR__ . '/comments_logic.php'; 
 
+
+// --- HANDLE USER UPLOADS ---
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['new_photo'])) {
+    $city_id = $_POST['city_id'];
+    $ext = strtolower(pathinfo($_FILES['new_photo']['name'], PATHINFO_EXTENSION));
+    if (in_array($ext, ['jpg','jpeg','png'])) {
+        if (!file_exists("user_pics/")) mkdir("user_pics/", 0777, true);
+        $target = "user_pics/{$city_id}_" . time() . ".{$ext}";
+        if (move_uploaded_file($_FILES['new_photo']['tmp_name'], $target)) {
+            
+            // Get current params and strip out page numbers (keys ending in _p)
+            $params = $_GET;
+            foreach ($params as $key => $value) {
+                if (substr($key, -2) === '_p') {
+                    unset($params[$key]);
+                }
+            }
+            
+            // Redirect back to Page 1
+            $url = $_SERVER['PHP_SELF'] . '?' . http_build_query($params);
+            header("Location: " . $url);
+            exit;
+        }
+    }
+}
+
+
 // Check if weather_widget.php exists to prevent a fatal "file not found" error
 if (file_exists(__DIR__ . '/weather_widget.php')) {
     require_once __DIR__ . '/weather_widget.php';
@@ -53,6 +80,7 @@ $weatherCodes = [
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="weather_style.css">
+  <link rel="stylesheet" href="photo_widget.css">
 </head>
 
 <body class="map-page">
@@ -88,6 +116,11 @@ $weatherCodes = [
       } 
     ?>
   </div>
+
+<?php
+    $id = $currentCityId; // Pass the ID to the widget
+    include 'photo_widget.php'; 
+  ?>
 
   <section class="comments-section">
       <div class="container">
