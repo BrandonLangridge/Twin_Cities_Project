@@ -1,9 +1,20 @@
 <?php 
   /* index.php */
 
-  // Link to config.php
+  // 1. Link to config.php
   // This provides the $pdo connection and ensures consistent DB settings.
   $config = require __DIR__ . '/config.php'; 
+
+  // 2. DATABASE AUTO-CHECK BLOCK:
+  // We try a simple query to see if the 'Cities' table exists.
+  try {
+      $pdo->query("SELECT 1 FROM Cities LIMIT 1");
+  } catch (Exception $e) {
+      // If the query fails, the database is likely not set up.
+      // Redirect to your setup.php file.
+      header("Location: setup.php");
+      exit;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
