@@ -53,16 +53,16 @@ Ensures the background around the weather card stays white */
 }
 
 
-/* MAP LAYOUT - CONSTRAINED CUT-OUT STYLE */
+/* MAP LAYOUT */
 
 #map-wrapper {
   height: 70vh;
-  max-width: 1100px; /* Constrains width for cut-out look */
-  margin: 40px auto; /* Centers the map */
+  max-width: 1100px; 
+  margin: 40px auto; 
   position: relative;
-  border: 4px solid var(--accent); /* Full frame border */
-  border-radius: 20px; /* Rounded corners */
-  overflow: hidden; /* Clips the map tiles to the corners */
+  border: 4px solid var(--accent); 
+  border-radius: 20px; 
+  overflow: hidden;
   box-shadow: var(--shadow);
 }
 
@@ -71,11 +71,9 @@ Ensures the background around the weather card stays white */
   width: 100%;
 }
 
-/* Fix for tooltip clipping in overflow:hidden containers */
 .leaflet-tooltip-pane {
   z-index: 650 !important;
 }
-
 
 /* UNIFIED BUTTON & DROPDOWN STYLE */
 
