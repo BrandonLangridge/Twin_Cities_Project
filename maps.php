@@ -7,7 +7,7 @@ $config = require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/comments_logic.php'; 
 
 
-// --- HANDLE USER UPLOADS ---
+// HANDLE USER UPLOADS
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['new_photo'])) {
     $city_id = $_POST['city_id'];
     $ext = strtolower(pathinfo($_FILES['new_photo']['name'], PATHINFO_EXTENSION));
