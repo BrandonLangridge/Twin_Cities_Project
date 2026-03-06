@@ -55,15 +55,6 @@ try {
         CONSTRAINT fk_poi_city FOREIGN KEY (city_id) REFERENCES Cities(city_id) ON DELETE CASCADE
     ) ENGINE=InnoDB;
 
-    CREATE TABLE Images (
-        image_id INT AUTO_INCREMENT PRIMARY KEY,
-        image_url VARCHAR(2048) NOT NULL,
-        caption VARCHAR(255) NULL,
-        poi_id INT NOT NULL,
-        CONSTRAINT fk_images_poi FOREIGN KEY (poi_id) REFERENCES Place_of_Interest(poi_id) ON DELETE CASCADE
-    ) ENGINE=InnoDB;
-
-    -- NEW TABLE: Photos
     CREATE TABLE Photos (
         photo_id INT AUTO_INCREMENT PRIMARY KEY,
         city_id VARCHAR(50) NOT NULL,
@@ -71,6 +62,15 @@ try {
         image_url VARCHAR(2048) NOT NULL,
         caption VARCHAR(255) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    
+    CREATE TABLE News (
+        news_id INT AUTO_INCREMENT PRIMARY KEY,
+        headline VARCHAR(255) NOT NULL,
+        body TEXT NOT NULL,
+        published_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        city_id INT NOT NULL,
+        CONSTRAINT fk_news_city FOREIGN KEY (city_id) REFERENCES Cities(city_id) ON DELETE CASCADE
+    ) ENGINE=InnoDB;
     ";
 
     $pdo->exec($tables);
@@ -83,7 +83,7 @@ try {
     ";
     $pdo->exec($citySql);
 
-    // 5. Seed Photos table (optional, empty initially)
+    // 5. Photos table
     $photoSeed = "
     INSERT INTO Photos (city_id, page_num, image_url, caption) VALUES
         ('1', 1, 'https://example.com/liverpool1.jpg', 'Liverpool photo 1'),
@@ -91,18 +91,37 @@ try {
     ";
     $pdo->exec($photoSeed);
 
-    // 6. Insert Place of Interest (POIs)
-    $poiSql = "
-    INSERT INTO Place_of_Interest (name, type, capacity, latitude, longitude, description, city_id) VALUES
-    ('The Beatles Story', 'Museum', NULL, 53.39930300, -2.99206600, 'Museum dedicated to the life and music of The Beatles.', 1),
-    ('Liverpool Cathedral', 'Religious Site', 2200, 53.39744600, -2.97317000, 'The largest cathedral in the UK.', 1),
-    ('Cologne Cathedral', 'Religious Site', 20000, 50.94133400, 6.95813300, 'Gothic Roman Catholic cathedral and UNESCO World Heritage Site.', 2),
-    ('Museum Ludwig', 'Museum', NULL, 50.94084900, 6.96003700, 'Museum of modern and contemporary art.', 2);
-    ";
-    $pdo->exec($poiSql);
+    // 6. Load and Insert Place of Interest (POIs) from external SQL file
+    $sqlFile = 'seed_pois.sql'; 
+    
+    if (file_exists($sqlFile)) {
+        $poiSql = file_get_contents($sqlFile);
+        
+        // Execute everything inside seed_pois.sql in one go
+        $pdo->exec($poiSql);
+    } else {
+        // Fallback or error if file is missing
+        throw new Exception("File not found: $sqlFile. Check that it is in the same folder as setup.php.");
+    }
 
-} catch (PDOException $e) {
+    // 7. Load and Insert News from external SQL file
+    $newsFile = 'news_table.sql';
+
+    if (file_exists($newsFile)) {
+        $newsSql = file_get_contents($newsFile);
+        
+        // Execute everything inside news_table.sql
+        $pdo->exec($newsSql);
+    } else {
+        throw new Exception("File not found: $newsFile. Check that it is in the same folder as setup.php.");
+    }
+
+} catch (Exception $e) { // Catch both PDO and file errors
     die("Setup Failed: " . $e->getMessage());
+}
+
+header("Location: index.php");
+exit;
 }
 
 header("Location: index.php");
