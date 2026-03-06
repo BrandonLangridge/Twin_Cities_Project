@@ -1,22 +1,8 @@
--- ============================================================
--- seed_pois.sql  (fixed version)
--- Uses DELETE instead of TRUNCATE to avoid FK constraint errors.
--- ============================================================
+-- seed_pois.sql 
 
 USE city_twin_db;
 
--- Delete child records first (Images references Place_of_Interest)
-DELETE FROM Images;
-
--- Now safe to delete all POIs
-DELETE FROM Place_of_Interest;
-
--- Reset auto-increment counter to start from 1
-ALTER TABLE Place_of_Interest AUTO_INCREMENT = 1;
-
--- ---------------------------------------------------------------
 -- LIVERPOOL POIs  (city_id = 1)
--- ---------------------------------------------------------------
 
 INSERT INTO Place_of_Interest (name, type, capacity, latitude, longitude, description, city_id) VALUES
 ('The Beatles Story', 'Museum', NULL, 53.39930300, -2.99206600, 'Museum dedicated to the life and music of The Beatles, located on Liverpool''s historic Albert Dock waterfront.', 1),
@@ -26,9 +12,7 @@ INSERT INTO Place_of_Interest (name, type, capacity, latitude, longitude, descri
 ('Anfield Stadium', 'Sports Venue', 61000, 53.43095100, -2.96090100, 'Historic football stadium and home of Liverpool FC. One of the most famous grounds in world football, opened in 1884 and expanded multiple times since.', 1),
 ('Sefton Park', 'Park', NULL, 53.38256000, -2.93657000, 'Large Victorian public park covering 235 acres with lakes, gardens, and walking paths. A Grade I listed landscape and much-loved green space in south Liverpool.', 1);
 
--- ---------------------------------------------------------------
 -- COLOGNE POIs  (city_id = 2)
--- ---------------------------------------------------------------
 
 INSERT INTO Place_of_Interest (name, type, capacity, latitude, longitude, description, city_id) VALUES
 ('Cologne Cathedral', 'Religious Site', 20000, 50.94133400, 6.95813300, 'Gothic Roman Catholic cathedral and UNESCO World Heritage Site, begun in 1248 and completed in 1880. The tallest twin-spired church in the world at 157 metres.', 2),
